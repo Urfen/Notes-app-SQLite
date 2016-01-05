@@ -26,13 +26,14 @@ public class Note {
 
     @Override
     public String toString() {
-        return "Note{" +
+        return id + "  :  " + title + "\nLast edit: " + date;
+        /*return "Note{" +
                 "body='" + body + '\'' +
                 ", id='" + id + '\'' +
                 ", title='" + title + '\'' +
                 ", date='" + date + '\'' +
                 ", imageName='" + imageName + '\'' +
-                '}';
+                '}';*/
     }
 
     public String getBody() {

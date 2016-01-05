@@ -8,6 +8,7 @@ import android.os.Parcelable;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import se.arvidbodkth.laboration41.MainActivity;
 import se.arvidbodkth.laboration41.SQLitePackage.NoteTask;
 
 /**
@@ -17,13 +18,13 @@ import se.arvidbodkth.laboration41.SQLitePackage.NoteTask;
 public class NoteModel{
 
     private NoteTask noteTask;
-    private Context context;
+    private MainActivity mainActivity;
 
     private ArrayList<Note> noteList;
 
-    public NoteModel(Context context){
+    public NoteModel(MainActivity mainActivity){
         noteList = new ArrayList<>();
-        this.context = context;
+        this.mainActivity = mainActivity;
     }
 
     public void testNotes(){
@@ -37,6 +38,11 @@ public class NoteModel{
                             "img path here"
                             )
             );
+
+            for (Note n: noteList) {
+                noteTask = new NoteTask(this,mainActivity.getApplicationContext(),"ADD",n);
+                noteTask.execute();
+            }
         }
     }
 
@@ -44,16 +50,28 @@ public class NoteModel{
         return noteList;
     }
 
-    public void setNoteList(ArrayList<Note> noteList){
-        this.noteList.addAll(noteList);
+    public void setNoteList(ArrayList<Note> notes){
+        noteList.clear();
+        noteList.addAll(notes);
     }
 
-    public void updateList(){
+    public void updateNoteList(){
+        noteTask = new NoteTask(this,mainActivity.getApplicationContext(),"GET_ALL",null);
+        noteTask.execute();
+    }
 
+    public void removeAll(){
+        noteTask = new NoteTask(this,mainActivity.getApplicationContext(),"REMOVE_ALL",null);
+        noteTask.execute();
+    }
+
+    public void updateController(){
+        mainActivity.update();
     }
 
     public void addNote(Note note){
-        noteTask = new NoteTask(this,context,"ADD",note);
+        noteTask = new NoteTask(this,mainActivity.getApplicationContext(),"ADD",note);
+        noteTask.execute();
     }
 
 }

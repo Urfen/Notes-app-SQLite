@@ -7,10 +7,14 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioButton;
 
@@ -21,19 +25,21 @@ public class MainActivity extends AppCompatActivity {
 
     private ListView listView;
     private RadioButton titleButton, dateButton, bodyButton;
+    private EditText searchText;
 
     private NoteModel model;
 
     private ArrayAdapter<Note> adapter;
 
-    private static final int CREATE_NOTE_REQUEST = 1337;
+    private static final int CREATE_NOTE_REQUEST = 1;
+    private static final int EDIT_NOTE_REQUEST = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        model = new NoteModel(this.getApplicationContext());
+        model = new NoteModel(this);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -43,19 +49,25 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, CreateNoteActivity.class);
-                startActivityForResult(intent,CREATE_NOTE_REQUEST);
+                startActivityForResult(intent, CREATE_NOTE_REQUEST);
             }
         });
 
-        model.testNotes();
+
 
         listView = (ListView) findViewById(R.id.listView);
-        adapter = new ArrayAdapter<Note>(this,android.R.layout.simple_list_item_1,model.getNoteList());
+        adapter = new ArrayAdapter<Note>(this,android.R.layout.simple_list_item_1
+                ,model.getNoteList());
         titleButton = (RadioButton) findViewById(R.id.titleButton);
         dateButton = (RadioButton) findViewById(R.id.dateButton);
         bodyButton = (RadioButton) findViewById(R.id.bodyButton);
+        searchText = (EditText) findViewById(R.id.searchText);
 
         listView.setAdapter(adapter);
+
+        setHandlers();
+
+        model.updateNoteList();
     }
 
     @Override
@@ -91,9 +103,67 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            model.testNotes();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void update(){
+        adapter.notifyDataSetChanged();
+    }
+
+    private void setHandlers(){
+
+        searchText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        dateButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                model.updateNoteList();
+            }
+        });
+
+        bodyButton.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                model.removeAll();
+            }
+        });
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Note n = (Note) listView.getSelectedItem();
+
+
+                Intent intent = new Intent(MainActivity.this, EditNoteActivity.class);
+                //intent.putExtra("ID", n.getId());
+                intent.putExtra("TITLE",n.getTitle());
+                intent.putExtra("DATE",n.getDate());
+                intent.putExtra("BODY",n.getBody());
+                intent.putExtra("IMAGE",n.getImageName());
+                startActivityForResult(intent, EDIT_NOTE_REQUEST);
+            }
+        });
+
     }
 }

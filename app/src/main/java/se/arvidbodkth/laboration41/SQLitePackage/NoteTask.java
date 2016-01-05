@@ -28,6 +28,7 @@ public class NoteTask extends AsyncTask<Void, Integer, ArrayList<Note>> {
         this.query = query;
         this.note = note;
 
+        noteList = new ArrayList<>();
         mDbHelper = new NoteDbHelper(context);
     }
 
@@ -36,6 +37,14 @@ public class NoteTask extends AsyncTask<Void, Integer, ArrayList<Note>> {
         switch (query){
             case "ADD":
                 mDbHelper.addNote(this.note);
+                break;
+
+            case "GET_ALL":
+                noteList = mDbHelper.getAll();
+                break;
+
+            case "REMOVE_ALL":
+                mDbHelper.removeAll();
                 break;
         }
         return null;
@@ -49,6 +58,10 @@ public class NoteTask extends AsyncTask<Void, Integer, ArrayList<Note>> {
     @Override
     protected void onPostExecute(ArrayList<Note> notes) {
         super.onPostExecute(notes);
-
+        if(noteList.size() > 0) {
+            model.setNoteList(noteList);
+        }
+        model.updateController();
+        System.out.println("Task done.");
     }
 }

@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.util.ArrayList;
+
 import se.arvidbodkth.laboration41.NotePackage.Note;
 
 
@@ -13,7 +15,7 @@ import se.arvidbodkth.laboration41.NotePackage.Note;
  * Created by Arvid on 2016-01-04.
  *
  */
-public class NoteDbHelper extends SQLiteOpenHelper{
+public class NoteDbHelper extends SQLiteOpenHelper {
 
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "Notes.db";
@@ -22,7 +24,7 @@ public class NoteDbHelper extends SQLiteOpenHelper{
 
     public static final String SQL_CREATE_TABLE = "CREATE TABLE " +
             NoteContract.NoteEntry.TABLE_NAME + " (" +
-            NoteContract.NoteEntry._ID + " INTEGER PRIMARY KEY," +
+            NoteContract.NoteEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
             NoteContract.NoteEntry.COLUMN_NAME_ID + " TEXT," +
             NoteContract.NoteEntry.NOTE_TITLE + " TEXT," +
             NoteContract.NoteEntry.NOTE_DATE + " TEXT," +
@@ -33,7 +35,7 @@ public class NoteDbHelper extends SQLiteOpenHelper{
     private static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + NoteContract.NoteEntry.TABLE_NAME;
 
-    public NoteDbHelper(Context context){
+    public NoteDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
@@ -53,25 +55,13 @@ public class NoteDbHelper extends SQLiteOpenHelper{
         onUpgrade(db, oldVersion, newVersion);
     }
 
-    public void addNote(Note note){
-
-        db = this.getReadableDatabase();
-
-        ContentValues values = new ContentValues();
-        values.put(NoteContract.NoteEntry.NOTE_TITLE, note.getTitle());
-        values.put(NoteContract.NoteEntry.NOTE_DATE, note.getDate());
-        values.put(NoteContract.NoteEntry.NOTE_BODY, note.getBody());
-        values.put(NoteContract.NoteEntry.IMAGE_NAME, note.getImageName());
-
-        long newRowId;
-        newRowId = db.insert(
-                NoteContract.NoteEntry.TABLE_NAME,
-                null,
-                values);
-
+    public void removeAll() {
+        db = this.getWritableDatabase();
+        db.delete(NoteContract.NoteEntry.TABLE_NAME, null, null);
     }
 
-    public Note getFirst(){
+    public ArrayList<Note> getAll() {
+        ArrayList<Note> notes = new ArrayList<>();
         db = this.getReadableDatabase();
 
         String[] projection = {
@@ -94,12 +84,50 @@ public class NoteDbHelper extends SQLiteOpenHelper{
 
         c.moveToFirst();
 
-        return new Note(
-                c.getString(c.getColumnIndexOrThrow(NoteContract.NoteEntry._ID)),
-                c.getString(c.getColumnIndexOrThrow(NoteContract.NoteEntry.NOTE_TITLE)),
-                c.getString(c.getColumnIndexOrThrow(NoteContract.NoteEntry.NOTE_DATE)),
-                c.getString(c.getColumnIndexOrThrow(NoteContract.NoteEntry.NOTE_BODY)),
-                c.getString(c.getColumnIndexOrThrow(NoteContract.NoteEntry.IMAGE_NAME))
-                );
+        while (!c.isAfterLast()) {
+            System.out.println(c.toString());
+            notes.add(new Note(
+                    c.getString(c.getColumnIndexOrThrow(NoteContract.NoteEntry.NOTE_TITLE)),
+                    c.getString(c.getColumnIndexOrThrow(NoteContract.NoteEntry.NOTE_DATE)),
+                    c.getString(c.getColumnIndexOrThrow(NoteContract.NoteEntry.NOTE_BODY)),
+                    c.getString(c.getColumnIndexOrThrow(NoteContract.NoteEntry.IMAGE_NAME))
+            ));
+
+            c.moveToNext();
+        }
+
+        for (Note n : notes) {
+            System.out.println(n.toString());
+        }
+
+        return notes;
     }
+
+    public void addNote(Note note) {
+
+        db = this.getWritableDatabase();
+
+       /* ContentValues values = new ContentValues();
+        values.put(NoteContract.NoteEntry.NOTE_TITLE, note.getTitle());
+        values.put(NoteContract.NoteEntry.NOTE_DATE, note.getDate());
+        values.put(NoteContract.NoteEntry.NOTE_BODY, note.getBody());
+        values.put(NoteContract.NoteEntry.IMAGE_NAME, note.getImageName());*/
+
+        db.execSQL("INSERT INTO NOTE (TITLE, DATE, CONTENT, IMAGENAME) VALUES ('"
+                        + note.getTitle() + "', '"
+                        + note.getDate() + "', '"
+                        + note.getBody() + "', '"
+                        + note.getImageName() + "')"
+        );
+                /*insert(
+                NoteContract.NoteEntry.TABLE_NAME,
+                null,
+                values);*/
+        System.out.println("INSERT INTO NOTES (NOTE_TITLE, NOTE_DATE, NOTE_BODY, IMAGE_NAME) VALUES ("
+                + note.getTitle() + ", "
+                + note.getDate() + ", "
+                + note.getBody() + ", "
+                + note.getImageName() + ")");
+    }
+
 }

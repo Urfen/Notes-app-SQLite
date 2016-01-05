@@ -1,14 +1,12 @@
 package se.arvidbodkth.laboration41;
 
 import android.app.Activity;
-import android.content.ContentValues;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -16,14 +14,7 @@ import android.widget.ImageView;
 import java.io.IOException;
 import java.util.Date;
 
-
-import se.arvidbodkth.laboration41.NotePackage.Note;
-import se.arvidbodkth.laboration41.NotePackage.NoteModel;
-import se.arvidbodkth.laboration41.SQLitePackage.NoteContract;
-import se.arvidbodkth.laboration41.SQLitePackage.NoteDbHelper;
-import se.arvidbodkth.laboration41.SQLitePackage.NoteTask;
-
-public class CreateNoteActivity extends AppCompatActivity {
+public class EditNoteActivity extends AppCompatActivity {
 
 
     private int PICK_IMAGE_REQUEST = 0;
@@ -46,6 +37,11 @@ public class CreateNoteActivity extends AppCompatActivity {
 
         dateText.setText(new Date().toString());
 
+
+        titleText.setText(getIntent().getStringExtra("TITLE"));
+        dateText.setText(getIntent().getStringExtra("DATE"));
+        bodyText.setText(getIntent().getStringExtra("BODY"));
+        imageURI = (getIntent().getStringExtra("IMAGE"));
     }
 
     public void saveButtonClicked(View view) {
