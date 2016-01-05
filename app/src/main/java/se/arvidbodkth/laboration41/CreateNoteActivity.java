@@ -1,5 +1,6 @@
 package se.arvidbodkth.laboration41;
 
+import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
@@ -28,7 +29,6 @@ public class CreateNoteActivity extends AppCompatActivity {
     private int PICK_IMAGE_REQUEST = 0;
     private String imageURI = "ingen bild";
 
-    private NoteModel model;
 
     private EditText titleText, dateText, bodyText;
     private ImageView imageView;
@@ -45,20 +45,20 @@ public class CreateNoteActivity extends AppCompatActivity {
 
         dateText.setText(new Date().toString());
 
-        Bundle bundle = this.getIntent().getExtras();
-
-        model = (NoteModel) bundle.getSerializable("model");
     }
 
     public void saveButtonClicked(View view) {
         if(titleText.getText() != null && dateText.getText() != null && bodyText.getText() != null){
 
-            model.addNote(this, new Note(
-                    titleText.getText().toString(),
-                    dateText.getText().toString(),
-                    bodyText.getText().toString(),
-                    imageURI
-            ));
+            Intent intent = new Intent();
+
+            intent.putExtra("TITLE",titleText.getText().toString());
+            intent.putExtra("DATE",dateText.getText().toString());
+            intent.putExtra("BODY",bodyText.getText().toString());
+            intent.putExtra("IMAGE",imageURI);
+
+            setResult(Activity.RESULT_OK, intent);
+            finish();
 
             /*SQLiteDatabase db = mDbHelper.getWritableDatabase();
 

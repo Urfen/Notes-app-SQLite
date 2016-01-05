@@ -1,5 +1,6 @@
 package se.arvidbodkth.laboration41;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -25,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
 
     private ArrayAdapter<Note> adapter;
 
+    private static final int CREATE_NOTE_REQUEST = 1337;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,8 +43,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, CreateNoteActivity.class);
-                intent.putExtra("model",model);
-                startActivityForResult(intent, 1);
+                startActivityForResult(intent,CREATE_NOTE_REQUEST);
             }
         });
 
@@ -59,8 +61,18 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        model.updateList();
-        adapter.notifyDataSetChanged();
+
+        if(requestCode == CREATE_NOTE_REQUEST){
+            if(resultCode == Activity.RESULT_OK){
+                model.addNote(new Note(
+                        data.getStringExtra("TITLE"),
+                        data.getStringExtra("DATE"),
+                        data.getStringExtra("BODY"),
+                        data.getStringExtra("IMAGE")
+                ));
+                System.out.println("Added new note");
+            }
+        }
     }
 
     @Override

@@ -2,6 +2,8 @@ package se.arvidbodkth.laboration41.NotePackage;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -12,7 +14,7 @@ import se.arvidbodkth.laboration41.SQLitePackage.NoteTask;
  * Created by Arvid on 2016-01-05.
  *
  */
-public class NoteModel implements Serializable{
+public class NoteModel{
 
     private NoteTask noteTask;
     private Context context;
@@ -50,7 +52,8 @@ public class NoteModel implements Serializable{
 
     }
 
-    public void addNote(Activity activity, Note note){
-        noteTask = new NoteTask(activity, context,"ADD",note);
+    public void addNote(Note note){
+        noteTask = new NoteTask(this,context,"ADD",note);
     }
+
 }

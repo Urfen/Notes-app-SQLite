@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import java.util.ArrayList;
 
 import se.arvidbodkth.laboration41.NotePackage.Note;
+import se.arvidbodkth.laboration41.NotePackage.NoteModel;
 
 
 /**
@@ -20,11 +21,10 @@ public class NoteTask extends AsyncTask<Void, Integer, ArrayList<Note>> {
 
     private ArrayList<Note> noteList;
     private Note note;
+    private NoteModel model;
 
-    private Activity activity;
-
-    public NoteTask(Activity activity, Context context, String query, Note note){
-        this.activity = activity;
+    public NoteTask(NoteModel model, Context context, String query, Note note){
+        this.model = model;
         this.query = query;
         this.note = note;
 
@@ -49,8 +49,6 @@ public class NoteTask extends AsyncTask<Void, Integer, ArrayList<Note>> {
     @Override
     protected void onPostExecute(ArrayList<Note> notes) {
         super.onPostExecute(notes);
-        if(activity != null){
-            activity.finish();
-        }
+
     }
 }
