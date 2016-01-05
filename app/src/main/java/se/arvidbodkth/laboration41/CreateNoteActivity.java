@@ -17,21 +17,21 @@ import java.util.Date;
 
 
 import se.arvidbodkth.laboration41.NotePackage.Note;
+import se.arvidbodkth.laboration41.NotePackage.NoteModel;
 import se.arvidbodkth.laboration41.SQLitePackage.NoteContract;
 import se.arvidbodkth.laboration41.SQLitePackage.NoteDbHelper;
+import se.arvidbodkth.laboration41.SQLitePackage.NoteTask;
 
 public class CreateNoteActivity extends AppCompatActivity {
 
 
     private int PICK_IMAGE_REQUEST = 0;
+    private String imageURI = "ingen bild";
 
-    private NoteDbHelper mDbHelper = new NoteDbHelper(this);
-
-    private String imageURI = null;
+    private NoteModel model;
 
     private EditText titleText, dateText, bodyText;
     private ImageView imageView;
-    private Note note;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,20 +44,23 @@ public class CreateNoteActivity extends AppCompatActivity {
         imageView = (ImageView) findViewById(R.id.imageView);
 
         dateText.setText(new Date().toString());
-    }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
+        Bundle bundle = this.getIntent().getExtras();
+
+        model = (NoteModel) bundle.getSerializable("model");
     }
 
     public void saveButtonClicked(View view) {
         if(titleText.getText() != null && dateText.getText() != null && bodyText.getText() != null){
-            /*note = new Note(titleText.getText().toString()
-                    , dateText.getText().toString()
-                    , bodyText.getText().toString(), imageURI);*/
 
-            SQLiteDatabase db = mDbHelper.getWritableDatabase();
+            model.addNote(this, new Note(
+                    titleText.getText().toString(),
+                    dateText.getText().toString(),
+                    bodyText.getText().toString(),
+                    imageURI
+            ));
+
+            /*SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
             ContentValues values = new ContentValues();
 
@@ -71,11 +74,11 @@ public class CreateNoteActivity extends AppCompatActivity {
             newRowId = db.insert(
                     NoteContract.NoteEntry.TABLE_NAME,
                     null,
-                    values);
+                    values);*/
 
-            finish();
         }
     }
+
 
     public void imageButtonClicked(View view){
         //http://codetheory.in/android-pick-select-image-from-gallery-with-intents/

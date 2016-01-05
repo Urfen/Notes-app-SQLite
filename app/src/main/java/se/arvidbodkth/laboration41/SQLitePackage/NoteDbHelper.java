@@ -1,5 +1,6 @@
 package se.arvidbodkth.laboration41.SQLitePackage;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -50,6 +51,24 @@ public class NoteDbHelper extends SQLiteOpenHelper{
     @Override
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         onUpgrade(db, oldVersion, newVersion);
+    }
+
+    public void addNote(Note note){
+
+        db = this.getReadableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(NoteContract.NoteEntry.NOTE_TITLE, note.getTitle());
+        values.put(NoteContract.NoteEntry.NOTE_DATE, note.getDate());
+        values.put(NoteContract.NoteEntry.NOTE_BODY, note.getBody());
+        values.put(NoteContract.NoteEntry.IMAGE_NAME, note.getImageName());
+
+        long newRowId;
+        newRowId = db.insert(
+                NoteContract.NoteEntry.TABLE_NAME,
+                null,
+                values);
+
     }
 
     public Note getFirst(){

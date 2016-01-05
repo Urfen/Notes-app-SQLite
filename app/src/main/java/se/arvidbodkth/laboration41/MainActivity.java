@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        model = new NoteModel();
+        model = new NoteModel(this.getApplicationContext());
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -40,7 +40,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, CreateNoteActivity.class);
-                startActivity(intent);
+                intent.putExtra("model",model);
+                startActivityForResult(intent, 1);
             }
         });
 
@@ -53,6 +54,13 @@ public class MainActivity extends AppCompatActivity {
         bodyButton = (RadioButton) findViewById(R.id.bodyButton);
 
         listView.setAdapter(adapter);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        model.updateList();
+        adapter.notifyDataSetChanged();
     }
 
     @Override

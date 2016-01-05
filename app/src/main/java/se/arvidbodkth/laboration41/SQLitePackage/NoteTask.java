@@ -1,5 +1,6 @@
 package se.arvidbodkth.laboration41.SQLitePackage;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 
@@ -12,27 +13,31 @@ import se.arvidbodkth.laboration41.NotePackage.Note;
  * Created by Arvid on 2016-01-05.
  *
  */
-public class NoteTask extends AsyncTask<ArrayList<Note>, Integer, ArrayList<Note>> {
+public class NoteTask extends AsyncTask<Void, Integer, ArrayList<Note>> {
 
     private NoteDbHelper mDbHelper;
     private String query;
 
     private ArrayList<Note> noteList;
+    private Note note;
 
+    private Activity activity;
 
-    public NoteTask(Context context, String query){
-        noteList = new ArrayList<>();
-        mDbHelper = new NoteDbHelper(context);
+    public NoteTask(Activity activity, Context context, String query, Note note){
+        this.activity = activity;
         this.query = query;
+        this.note = note;
+
+        mDbHelper = new NoteDbHelper(context);
     }
 
     @Override
-    protected ArrayList<Note> doInBackground(ArrayList<Note>... params) {
-        if(query.equals("First")){
-           // noteList.add(mDbHelper.getFirst());
-            return noteList;
+    protected ArrayList<Note> doInBackground(Void... params) {
+        switch (query){
+            case "ADD":
+                mDbHelper.addNote(this.note);
+                break;
         }
-
         return null;
     }
 
@@ -44,5 +49,8 @@ public class NoteTask extends AsyncTask<ArrayList<Note>, Integer, ArrayList<Note
     @Override
     protected void onPostExecute(ArrayList<Note> notes) {
         super.onPostExecute(notes);
+        if(activity != null){
+            activity.finish();
+        }
     }
 }
