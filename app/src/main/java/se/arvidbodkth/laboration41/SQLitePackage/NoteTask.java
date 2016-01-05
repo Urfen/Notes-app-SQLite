@@ -5,7 +5,7 @@ import android.os.AsyncTask;
 
 import java.util.ArrayList;
 
-import se.arvidbodkth.laboration41.Note;
+import se.arvidbodkth.laboration41.NotePackage.Note;
 
 
 /**

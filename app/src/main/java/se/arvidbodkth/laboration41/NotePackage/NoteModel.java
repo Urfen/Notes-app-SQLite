@@ -1,4 +1,4 @@
-package se.arvidbodkth.laboration41;
+package se.arvidbodkth.laboration41.NotePackage;
 
 import java.util.ArrayList;
 
