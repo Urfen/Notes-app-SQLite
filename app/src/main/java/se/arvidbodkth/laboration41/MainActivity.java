@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.RadioButton;
 
@@ -16,10 +17,17 @@ public class MainActivity extends AppCompatActivity {
     private ListView listView;
     private RadioButton titleButton, dateButton, bodyButton;
 
+    private NoteModel model;
+
+    private ArrayAdapter<Note> adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        model = new NoteModel();
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -32,13 +40,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        model.testNotes();
+
         listView = (ListView) findViewById(R.id.listView);
+        adapter = new ArrayAdapter<Note>(this,android.R.layout.simple_list_item_1,model.getNoteList());
         titleButton = (RadioButton) findViewById(R.id.titleButton);
         dateButton = (RadioButton) findViewById(R.id.dateButton);
         bodyButton = (RadioButton) findViewById(R.id.bodyButton);
 
-
-
+        listView.setAdapter(adapter);
     }
 
     @Override

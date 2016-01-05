@@ -5,7 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import se.arvidbodkth.laboration4.NotePackage.Note;
+import se.arvidbodkth.laboration41.Note;
 
 
 /**

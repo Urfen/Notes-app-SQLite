@@ -7,10 +7,10 @@ package se.arvidbodkth.laboration41;
  */
 public class Note {
 
-    private int id;
-    private String title, body, date, imageName;
+    private String id, title, body, date, imageName;
 
     public Note(String id, String title, String date, String body, String imageName){
+        this.id = id;
         this.imageName = imageName;
         this.title = title;
         this.date = date;
@@ -20,9 +20,11 @@ public class Note {
     @Override
     public String toString() {
         return "Note{" +
-                "title='" + title + '\'' +
-                ", body='" + body + '\'' +
+                "body='" + body + '\'' +
+                ", id='" + id + '\'' +
+                ", title='" + title + '\'' +
                 ", date='" + date + '\'' +
+                ", imageName='" + imageName + '\'' +
                 '}';
     }
 }

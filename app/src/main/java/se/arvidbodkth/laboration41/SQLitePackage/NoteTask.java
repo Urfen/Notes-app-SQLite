@@ -5,7 +5,8 @@ import android.os.AsyncTask;
 
 import java.util.ArrayList;
 
-import se.arvidbodkth.laboration4.NotePackage.Note;
+import se.arvidbodkth.laboration41.Note;
+
 
 /**
  * Created by Arvid on 2016-01-05.
@@ -28,7 +29,7 @@ public class NoteTask extends AsyncTask<ArrayList<Note>, Integer, ArrayList<Note
     @Override
     protected ArrayList<Note> doInBackground(ArrayList<Note>... params) {
         if(query.equals("First")){
-            noteList.add(mDbHelper.getFirst());
+           // noteList.add(mDbHelper.getFirst());
             return noteList;
         }
 
