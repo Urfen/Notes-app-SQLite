@@ -8,8 +8,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
+import android.widget.RadioButton;
 
 public class MainActivity extends AppCompatActivity {
+
+    private ListView listView;
+    private RadioButton titleButton, dateButton, bodyButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +31,14 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+        listView = (ListView) findViewById(R.id.listView);
+        titleButton = (RadioButton) findViewById(R.id.titleButton);
+        dateButton = (RadioButton) findViewById(R.id.dateButton);
+        bodyButton = (RadioButton) findViewById(R.id.bodyButton);
+
+
+
     }
 
     @Override
