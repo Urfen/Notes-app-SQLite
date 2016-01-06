@@ -152,11 +152,12 @@ public class MainActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Note n = (Note) listView.getSelectedItem();
+                System.out.println(listView.getItemAtPosition(position));
 
+                Note n = (Note) listView.getItemAtPosition(position);
 
                 Intent intent = new Intent(MainActivity.this, EditNoteActivity.class);
-                //intent.putExtra("ID", n.getId());
+                intent.putExtra("ID", n.getId());
                 intent.putExtra("TITLE",n.getTitle());
                 intent.putExtra("DATE",n.getDate());
                 intent.putExtra("BODY",n.getBody());

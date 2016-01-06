@@ -58,6 +58,7 @@ public class NoteDbHelper extends SQLiteOpenHelper {
     public void removeAll() {
         db = this.getWritableDatabase();
         db.delete(NoteContract.NoteEntry.TABLE_NAME, null, null);
+        db.close();
     }
 
     public ArrayList<Note> getAll() {
@@ -100,6 +101,7 @@ public class NoteDbHelper extends SQLiteOpenHelper {
             System.out.println(n.toString());
         }
 
+        db.close();
         return notes;
     }
 
@@ -128,6 +130,8 @@ public class NoteDbHelper extends SQLiteOpenHelper {
                 + note.getDate() + ", "
                 + note.getBody() + ", "
                 + note.getImageName() + ")");
+
+        db.close();
     }
 
 }
