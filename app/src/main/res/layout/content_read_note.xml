@@ -18,9 +18,9 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Large Text"
         android:id="@+id/titleText"
+        android:textSize="25dp"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:textSize="25dp"/>
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -40,7 +40,7 @@
         android:id="@+id/bodyText"
         android:layout_below="@+id/dateText"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="19dp"
+        android:layout_marginTop="20dp"
         android:scrollbars = "vertical"
         android:textSize="18dp" />
 
