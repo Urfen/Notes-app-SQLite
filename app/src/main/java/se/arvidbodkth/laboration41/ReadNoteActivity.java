@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -42,6 +43,7 @@ public class ReadNoteActivity extends AppCompatActivity {
         titleText.setText(getIntent().getStringExtra("TITLE"));
         dateText.setText(getIntent().getStringExtra("DATE"));
         bodyText.setText(getIntent().getStringExtra("BODY"));
+        bodyText.setMovementMethod(new ScrollingMovementMethod());
         imageURI = (getIntent().getStringExtra("IMAGE"));
 
 

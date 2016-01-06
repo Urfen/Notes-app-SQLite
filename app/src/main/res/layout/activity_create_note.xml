@@ -11,10 +11,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/title"
-        android:hint="Enter a title"
+        android:hint="Title"
+        android:textSize="25dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:layout_toStartOf="@+id/saveButton" />
+        android:background="@null"/>
 
     <EditText
         android:layout_width="wrap_content"
@@ -24,19 +25,10 @@
         android:ems="10"
         android:id="@+id/body"
         android:maxHeight="300dp"
+        android:background="@null"
         android:layout_below="@+id/dateText"
         android:layout_alignParentStart="true"
-        android:layout_alignEnd="@+id/saveButton" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Save note"
-        android:id="@+id/saveButton"
-        android:onClick="saveButtonClicked"
-        android:layout_alignBaseline="@+id/title"
-        android:layout_alignBottom="@+id/title"
-        android:layout_alignParentEnd="true" />
+        android:layout_marginTop="25dp" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -45,9 +37,11 @@
         android:ems="10"
         android:id="@+id/dateText"
         android:hint="Enter the date"
-        android:layout_below="@+id/title"
+        android:background="@null"
+        android:layout_marginTop="22dp"
+        android:layout_below="@+id/imageButton3"
         android:layout_alignParentStart="true"
-        android:layout_toStartOf="@+id/saveButton" />
+        android:textSize="18dp" />
 
     <ImageView
         android:layout_width="wrap_content"
@@ -56,13 +50,25 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true" />
 
-    <Button
+    <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Get Image"
-        android:id="@+id/imageButton"
+        android:id="@+id/imageButton3"
+        android:src="@drawable/ic_action_image"
         android:onClick="imageButtonClicked"
-        android:layout_below="@+id/title"
+        android:background="@null"
+        android:layout_marginEnd="17dp"
+        android:layout_alignParentTop="true"
+        android:layout_toStartOf="@+id/imageButton4" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageButton4"
+        android:src="@drawable/ic_action_save"
+        android:onClick="saveButtonClicked"
+        android:background="@null"
+        android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true" />
 
 </RelativeLayout>
