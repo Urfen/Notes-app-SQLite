@@ -110,6 +110,7 @@ public class NoteDbHelper extends SQLiteOpenHelper {
             System.out.println(n.toString());
         }
 
+        c.close();
         db.close();
         return notes;
     }
@@ -141,6 +142,62 @@ public class NoteDbHelper extends SQLiteOpenHelper {
                 + note.getImageName() + ")");
 
         db.close();
+    }
+
+    public ArrayList<Note> searchTitle(String param){
+        System.out.println("Searching for: " + param);
+        ArrayList<Note> notes = new ArrayList<>();
+        db = this.getReadableDatabase();
+
+        String[] projection = {
+                NoteContract.NoteEntry.COLUMN_NAME_ID,
+                NoteContract.NoteEntry.NOTE_TITLE,
+                NoteContract.NoteEntry.NOTE_DATE,
+                NoteContract.NoteEntry.NOTE_BODY,
+                NoteContract.NoteEntry.IMAGE_NAME
+        };
+
+        Cursor c = db.query(
+                NoteContract.NoteEntry.TABLE_NAME,        // The table to query
+                projection,                               // The columns to return
+                NoteContract.NoteEntry.NOTE_TITLE
+                        + " LIKE '%" + param + "%'",       // The columns for the WHERE clause
+                null,                                   // The values for the WHERE clause
+                null,                                     // don't group the rows
+                null,                                     // don't filter by row groups
+                null                                 // The sort order
+        );
+
+        c.moveToFirst();
+
+        while (!c.isAfterLast()) {
+            System.out.println(c.toString());
+            notes.add(new Note(
+                    c.getString(c.getColumnIndexOrThrow(NoteContract.NoteEntry.COLUMN_NAME_ID)),
+                    c.getString(c.getColumnIndexOrThrow(NoteContract.NoteEntry.NOTE_TITLE)),
+                    c.getString(c.getColumnIndexOrThrow(NoteContract.NoteEntry.NOTE_DATE)),
+                    c.getString(c.getColumnIndexOrThrow(NoteContract.NoteEntry.NOTE_BODY)),
+                    c.getString(c.getColumnIndexOrThrow(NoteContract.NoteEntry.IMAGE_NAME))
+            ));
+
+            c.moveToNext();
+        }
+
+        for (Note n : notes) {
+            System.out.println(n.toString());
+        }
+
+        c.close();
+        db.close();
+        return notes;
+    }
+
+    public ArrayList<Note>  searchDate(String param){
+        return null;
+    }
+
+    public ArrayList<Note>  searchBody(String param){
+        return null;
     }
 
 }

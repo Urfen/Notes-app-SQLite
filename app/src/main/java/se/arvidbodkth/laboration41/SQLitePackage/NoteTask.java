@@ -52,7 +52,7 @@ public class NoteTask extends AsyncTask<Void, Integer, ArrayList<Note>> {
                 break;
 
             case "SEARCH_TITLE":
-                mDbHelper.searchTitle(note.getTitle());
+                noteList = mDbHelper.searchTitle(note.getTitle());
                 break;
 
             case "SEARCH_DATE":
