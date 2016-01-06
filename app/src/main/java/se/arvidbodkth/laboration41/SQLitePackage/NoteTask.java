@@ -37,6 +37,7 @@ public class NoteTask extends AsyncTask<Void, Integer, ArrayList<Note>> {
         switch (query){
             case "ADD":
                 mDbHelper.addNote(this.note);
+                noteList = mDbHelper.getAll();
                 break;
 
             case "GET_ALL":
@@ -45,10 +46,12 @@ public class NoteTask extends AsyncTask<Void, Integer, ArrayList<Note>> {
 
             case "REMOVE_ALL":
                 mDbHelper.removeAll();
+                noteList.clear();
                 break;
 
             case "REMOVE_ONE":
                 mDbHelper.removeOne(note.getId());
+                noteList = mDbHelper.getAll();
                 break;
 
             case "SEARCH_TITLE":
@@ -56,11 +59,11 @@ public class NoteTask extends AsyncTask<Void, Integer, ArrayList<Note>> {
                 break;
 
             case "SEARCH_DATE":
-                mDbHelper.searchDate(note.getDate());
+                noteList = mDbHelper.searchDate(note.getDate());
                 break;
 
             case "SEARCH_BODY":
-                mDbHelper.searchBody(note.getBody());
+                noteList = mDbHelper.searchBody(note.getBody());
                 break;
         }
         return null;
@@ -74,9 +77,7 @@ public class NoteTask extends AsyncTask<Void, Integer, ArrayList<Note>> {
     @Override
     protected void onPostExecute(ArrayList<Note> notes) {
         super.onPostExecute(notes);
-        if(noteList.size() > 0) {
-            model.setNoteList(noteList);
-        }
+        model.setNoteList(noteList);
         model.updateController();
         System.out.println("Task done.");
     }

@@ -27,24 +27,6 @@ public class NoteModel{
         this.mainActivity = mainActivity;
     }
 
-    public void testNotes(){
-        for (int i = 0; i < 10; i++) {
-            noteList.add(
-                    new Note(
-                            String.valueOf(i),
-                            "Title " + i,
-                            "Date 21",
-                            "This is the body of the note... . ... . . .. . .. . . . . . . . . . . . .",
-                            "img path here"
-                            )
-            );
-
-            for (Note n: noteList) {
-                noteTask = new NoteTask(this,mainActivity.getApplicationContext(),"ADD",n);
-                noteTask.execute();
-            }
-        }
-    }
 
     public ArrayList<Note> getNoteList(){
         return noteList;
