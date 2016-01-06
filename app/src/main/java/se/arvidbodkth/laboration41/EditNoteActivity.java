@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class EditNoteActivity extends AppCompatActivity {
@@ -24,7 +25,9 @@ public class EditNoteActivity extends AppCompatActivity {
     private EditText titleText, dateText, bodyText;
     private ImageView imageView;
 
-    @Override
+    private String id;
+
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_note);
@@ -35,9 +38,7 @@ public class EditNoteActivity extends AppCompatActivity {
         imageView = (ImageView) findViewById(R.id.imageView);
 
 
-        dateText.setText(new Date().toString());
-
-
+        id = getIntent().getStringExtra("ID");
         titleText.setText(getIntent().getStringExtra("TITLE"));
         dateText.setText(getIntent().getStringExtra("DATE"));
         bodyText.setText(getIntent().getStringExtra("BODY"));
@@ -50,6 +51,7 @@ public class EditNoteActivity extends AppCompatActivity {
 
             Intent intent = new Intent();
 
+            intent.putExtra("ID", id);
             intent.putExtra("TITLE",titleText.getText().toString());
             intent.putExtra("DATE",dateText.getText().toString());
             intent.putExtra("BODY",bodyText.getText().toString());

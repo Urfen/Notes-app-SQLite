@@ -85,6 +85,23 @@ public class MainActivity extends AppCompatActivity {
                 System.out.println("Added new note");
             }
         }
+
+        if(requestCode == EDIT_NOTE_REQUEST){
+            if(resultCode == Activity.RESULT_OK){
+                System.out.println(data.getStringExtra("ID"));
+                model.removeNote(data.getStringExtra("ID"));
+
+                /*model.addNote(new Note(
+                        data.getStringExtra("TITLE"),
+                        data.getStringExtra("DATE"),
+                        data.getStringExtra("BODY"),
+                        data.getStringExtra("IMAGE")
+                ));
+                System.out.println("Added new note");*/
+            }
+
+
+        }
     }
 
     @Override
@@ -124,7 +141,15 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+                if(titleButton.isChecked()){
+                    model.searchTitle(searchText.getText().toString());
+                }
+                else if(dateButton.isChecked()){
+                    model.searchDate(searchText.getText().toString());
+                }
+                else if(bodyButton.isChecked()){
+                    model.searchBody(searchText.getText().toString());
+                }
             }
 
             @Override
@@ -152,16 +177,15 @@ public class MainActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                System.out.println(listView.getItemAtPosition(position));
 
                 Note n = (Note) listView.getItemAtPosition(position);
 
                 Intent intent = new Intent(MainActivity.this, EditNoteActivity.class);
                 intent.putExtra("ID", n.getId());
-                intent.putExtra("TITLE",n.getTitle());
-                intent.putExtra("DATE",n.getDate());
-                intent.putExtra("BODY",n.getBody());
-                intent.putExtra("IMAGE",n.getImageName());
+                intent.putExtra("TITLE", n.getTitle());
+                intent.putExtra("DATE", n.getDate());
+                intent.putExtra("BODY", n.getBody());
+                intent.putExtra("IMAGE", n.getImageName());
                 startActivityForResult(intent, EDIT_NOTE_REQUEST);
             }
         });

@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
@@ -44,7 +45,7 @@ public class CreateNoteActivity extends AppCompatActivity {
         imageView = (ImageView) findViewById(R.id.imageView);
 
 
-        dateText.setText(new Date().toString());
+        dateText.setText(new SimpleDateFormat("HH:mm dd/MM-yyyy").format(new Date()));
 
     }
 

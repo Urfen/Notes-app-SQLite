@@ -24,8 +24,7 @@ public class NoteDbHelper extends SQLiteOpenHelper {
 
     public static final String SQL_CREATE_TABLE = "CREATE TABLE " +
             NoteContract.NoteEntry.TABLE_NAME + " (" +
-            NoteContract.NoteEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-            NoteContract.NoteEntry.COLUMN_NAME_ID + " TEXT," +
+            NoteContract.NoteEntry.COLUMN_NAME_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
             NoteContract.NoteEntry.NOTE_TITLE + " TEXT," +
             NoteContract.NoteEntry.NOTE_DATE + " TEXT," +
             NoteContract.NoteEntry.NOTE_BODY + " TEXT," +
@@ -61,12 +60,21 @@ public class NoteDbHelper extends SQLiteOpenHelper {
         db.close();
     }
 
+    public void removeOne(String id){
+        db = this.getWritableDatabase();
+
+        db.delete(NoteContract.NoteEntry.TABLE_NAME, NoteContract.NoteEntry.COLUMN_NAME_ID + "=?" , new String[] {id});
+        db.close();
+
+        getAll();
+    }
+
     public ArrayList<Note> getAll() {
         ArrayList<Note> notes = new ArrayList<>();
         db = this.getReadableDatabase();
 
         String[] projection = {
-                NoteContract.NoteEntry._ID,
+                NoteContract.NoteEntry.COLUMN_NAME_ID,
                 NoteContract.NoteEntry.NOTE_TITLE,
                 NoteContract.NoteEntry.NOTE_DATE,
                 NoteContract.NoteEntry.NOTE_BODY,
@@ -88,6 +96,7 @@ public class NoteDbHelper extends SQLiteOpenHelper {
         while (!c.isAfterLast()) {
             System.out.println(c.toString());
             notes.add(new Note(
+                    c.getString(c.getColumnIndexOrThrow(NoteContract.NoteEntry.COLUMN_NAME_ID)),
                     c.getString(c.getColumnIndexOrThrow(NoteContract.NoteEntry.NOTE_TITLE)),
                     c.getString(c.getColumnIndexOrThrow(NoteContract.NoteEntry.NOTE_DATE)),
                     c.getString(c.getColumnIndexOrThrow(NoteContract.NoteEntry.NOTE_BODY)),

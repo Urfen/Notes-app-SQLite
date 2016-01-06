@@ -46,6 +46,22 @@ public class NoteTask extends AsyncTask<Void, Integer, ArrayList<Note>> {
             case "REMOVE_ALL":
                 mDbHelper.removeAll();
                 break;
+
+            case "REMOVE_ONE":
+                mDbHelper.removeOne(note.getId());
+                break;
+
+            case "SEARCH_TITLE":
+                mDbHelper.searchTitle(note.getTitle());
+                break;
+
+            case "SEARCH_DATE":
+                mDbHelper.searchDate(note.getDate());
+                break;
+
+            case "SEARCH_BODY":
+                mDbHelper.searchBody(note.getBody());
+                break;
         }
         return null;
     }

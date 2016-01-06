@@ -74,4 +74,28 @@ public class NoteModel{
         noteTask.execute();
     }
 
+    public void removeNote(String id){
+        noteTask = new NoteTask(this,mainActivity.getApplicationContext(),"REMOVE_ONE"
+                ,new Note(id, null, null, null, null));
+        noteTask.execute();
+    }
+
+    public void searchTitle(String param){
+        noteTask = new NoteTask(this,mainActivity.getApplicationContext(),"SEARCH_TITLE"
+                ,new Note(null, param, null, null, null));
+        noteTask.execute();
+    }
+
+    public void searchDate(String param){
+        noteTask = new NoteTask(this,mainActivity.getApplicationContext(),"SEARCH_DATE"
+                ,new Note(null, null, param, null, null));
+        noteTask.execute();
+    }
+
+    public void searchBody(String param){
+        noteTask = new NoteTask(this,mainActivity.getApplicationContext(),"SEARCH_BODY"
+                ,new Note(null, null, null, param, null));
+        noteTask.execute();
+    }
+
 }

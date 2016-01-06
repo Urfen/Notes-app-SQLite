@@ -26,7 +26,7 @@ public class Note {
 
     @Override
     public String toString() {
-        return id + "  :  " + title + "\nLast edit: " + date;
+        return "Id: "+ id + ", Title: " + title + "\nLast edit: " + date;
         /*return "Note{" +
                 "body='" + body + '\'' +
                 ", id='" + id + '\'' +
