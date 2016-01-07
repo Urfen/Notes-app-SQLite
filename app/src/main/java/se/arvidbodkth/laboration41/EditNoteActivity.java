@@ -43,6 +43,7 @@ public class EditNoteActivity extends AppCompatActivity {
         dateText.setText(getIntent().getStringExtra("DATE"));
         bodyText.setText(getIntent().getStringExtra("BODY"));
         imageURI = (getIntent().getStringExtra("IMAGE"));
+
     }
 
     public void saveButtonClicked(View view) {

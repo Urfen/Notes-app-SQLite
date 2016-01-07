@@ -1,6 +1,7 @@
 package se.arvidbodkth.laboration41;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -37,7 +38,7 @@ public class ReadNoteActivity extends AppCompatActivity {
         titleText = (TextView) findViewById(R.id.titleText);
         dateText = (TextView) findViewById(R.id.dateText);
         bodyText = (TextView) findViewById(R.id.bodyText);
-        imageView = (ImageView) findViewById(R.id.imageView);
+        imageView = (ImageView) findViewById(R.id.imageView2);
 
         id = getIntent().getStringExtra("ID");
         titleText.setText(getIntent().getStringExtra("TITLE"));
@@ -46,6 +47,9 @@ public class ReadNoteActivity extends AppCompatActivity {
         bodyText.setMovementMethod(new ScrollingMovementMethod());
         imageURI = (getIntent().getStringExtra("IMAGE"));
 
+
+        imageView.setImageURI(Uri.parse(imageURI));
+        System.out.println("här");
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
