@@ -90,6 +90,7 @@ public class CreateNoteActivity extends AppCompatActivity {
 
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
 
+
             Uri uri = data.getData();
             imageURI = uri.toString();
             System.out.println(uri);
