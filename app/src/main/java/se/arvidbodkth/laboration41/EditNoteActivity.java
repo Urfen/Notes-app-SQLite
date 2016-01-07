@@ -23,7 +23,6 @@ public class EditNoteActivity extends AppCompatActivity {
 
 
     private EditText titleText, dateText, bodyText;
-    private ImageView imageView;
 
     private String id;
 
@@ -35,7 +34,6 @@ public class EditNoteActivity extends AppCompatActivity {
         titleText = (EditText) findViewById(R.id.title);
         dateText = (EditText) findViewById(R.id.dateText);
         bodyText = (EditText) findViewById(R.id.body);
-        imageView = (ImageView) findViewById(R.id.imageView);
 
 
         id = getIntent().getStringExtra("ID");
@@ -84,17 +82,9 @@ public class EditNoteActivity extends AppCompatActivity {
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
 
             Uri uri = data.getData();
+            imageURI = uri.toString();
+            System.out.println(uri);
 
-            try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-                imageURI = uri.toString();
-                System.out.println(uri);
-
-                imageView.setImageBitmap(bitmap);
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
     }
 

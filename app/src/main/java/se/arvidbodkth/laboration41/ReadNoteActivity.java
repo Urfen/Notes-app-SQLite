@@ -18,7 +18,6 @@ public class ReadNoteActivity extends AppCompatActivity {
     private String imageURI = "ingen bild";
 
     private TextView titleText, dateText, bodyText;
-    private ImageView imageView;
 
     private String id;
 
@@ -38,7 +37,6 @@ public class ReadNoteActivity extends AppCompatActivity {
         titleText = (TextView) findViewById(R.id.titleText);
         dateText = (TextView) findViewById(R.id.dateText);
         bodyText = (TextView) findViewById(R.id.bodyText);
-        imageView = (ImageView) findViewById(R.id.imageView2);
 
         id = getIntent().getStringExtra("ID");
         titleText.setText(getIntent().getStringExtra("TITLE"));
@@ -47,9 +45,6 @@ public class ReadNoteActivity extends AppCompatActivity {
         bodyText.setMovementMethod(new ScrollingMovementMethod());
         imageURI = (getIntent().getStringExtra("IMAGE"));
 
-
-        imageView.setImageURI(Uri.parse(imageURI));
-        System.out.println("här");
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -73,6 +68,12 @@ public class ReadNoteActivity extends AppCompatActivity {
         });
     }
 
+
+    public void viewImageButtonClicked(View view){
+        if(imageURI != null) {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(imageURI)));
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

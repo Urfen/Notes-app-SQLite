@@ -30,9 +30,8 @@ public class CreateNoteActivity extends AppCompatActivity {
     private int PICK_IMAGE_REQUEST = 0;
     private String imageURI = "ingen bild";
 
-
     private EditText titleText, dateText, bodyText;
-    private ImageView imageView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +41,6 @@ public class CreateNoteActivity extends AppCompatActivity {
         titleText = (EditText) findViewById(R.id.title);
         dateText = (EditText) findViewById(R.id.dateText);
         bodyText = (EditText) findViewById(R.id.body);
-        imageView = (ImageView) findViewById(R.id.imageView);
 
 
         dateText.setText(new SimpleDateFormat("HH:mm dd/MM-yyyy").format(new Date()));
@@ -65,6 +63,13 @@ public class CreateNoteActivity extends AppCompatActivity {
         }
     }
 
+    public void viewImageButtonClicked(View view){
+        if(imageURI != null) {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(imageURI)));
+        }
+    }
+
+
 
     public void imageButtonClicked(View view){
         //http://codetheory.in/android-pick-select-image-from-gallery-with-intents/
@@ -86,18 +91,9 @@ public class CreateNoteActivity extends AppCompatActivity {
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
 
             Uri uri = data.getData();
+            imageURI = uri.toString();
+            System.out.println(uri);
 
-            try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-                imageURI = uri.toString();
-                System.out.println(uri);
-
-                imageView.setImageBitmap(bitmap);
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
     }
-
 }
