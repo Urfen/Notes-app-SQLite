@@ -29,9 +29,11 @@ public class CreateNoteActivity extends AppCompatActivity {
 
     private int PICK_IMAGE_REQUEST = 0;
     private String imageURI = "ingen bild";
+    private boolean noteIsSaved = false;
 
     private EditText titleText, dateText, bodyText;
 
+    private static final String TITLE_FIELD = "title";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,33 +47,61 @@ public class CreateNoteActivity extends AppCompatActivity {
 
         dateText.setText(new SimpleDateFormat("HH:mm dd/MM-yyyy").format(new Date()));
 
+        if (getIntent().getExtras() != null) {
+            titleText.setText(getIntent().getStringExtra("TITLE"));
+            dateText.setText(getIntent().getStringExtra("DATE"));
+            bodyText.setText(getIntent().getStringExtra("BODY"));
+            imageURI = (getIntent().getStringExtra("IMAGE"));
+        }
+
+    }
+
+    @Override
+    protected void onStop() {
+        System.out.println("stop");
+        if (!noteIsSaved) {
+            try {
+                new SaveNoteState().writeFile(this.getApplicationContext(), new NoteState(
+                        "create"
+                        , null
+                        , titleText.getText().toString()
+                        , dateText.getText().toString()
+                        , bodyText.getText().toString()
+                        , imageURI
+                ));
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        super.onStop();
     }
 
     public void saveButtonClicked(View view) {
-        if(titleText.getText().toString().trim().length() > 0
-                || bodyText.getText().toString().trim().length() > 0){
+        if (titleText.getText().toString().trim().length() > 0
+                || bodyText.getText().toString().trim().length() > 0) {
 
             Intent intent = new Intent();
 
-            intent.putExtra("TITLE",titleText.getText().toString());
-            intent.putExtra("DATE",dateText.getText().toString());
-            intent.putExtra("BODY",bodyText.getText().toString());
-            intent.putExtra("IMAGE",imageURI);
+            intent.putExtra("TITLE", titleText.getText().toString());
+            intent.putExtra("DATE", dateText.getText().toString());
+            intent.putExtra("BODY", bodyText.getText().toString());
+            intent.putExtra("IMAGE", imageURI);
 
             setResult(Activity.RESULT_OK, intent);
+            noteIsSaved = true;
             finish();
         }
     }
 
-    public void viewImageButtonClicked(View view){
-        if(imageURI != null) {
+    public void viewImageButtonClicked(View view) {
+        if (imageURI != null) {
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(imageURI)));
         }
     }
 
 
-
-    public void imageButtonClicked(View view){
+    public void imageButtonClicked(View view) {
         //http://codetheory.in/android-pick-select-image-from-gallery-with-intents/
 
         Intent intent = new Intent();
@@ -90,11 +120,12 @@ public class CreateNoteActivity extends AppCompatActivity {
 
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
 
-
             Uri uri = data.getData();
             imageURI = uri.toString();
             System.out.println(uri);
 
         }
     }
+
+
 }

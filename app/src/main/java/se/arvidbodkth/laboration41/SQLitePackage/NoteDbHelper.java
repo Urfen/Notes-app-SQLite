@@ -13,7 +13,6 @@ import se.arvidbodkth.laboration41.NotePackage.Note;
 
 /**
  * Created by Arvid on 2016-01-04.
- *
  */
 public class NoteDbHelper extends SQLiteOpenHelper {
 
@@ -60,10 +59,10 @@ public class NoteDbHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void removeOne(String id){
+    public void removeOne(String id) {
         db = this.getWritableDatabase();
 
-        db.delete(NoteContract.NoteEntry.TABLE_NAME, NoteContract.NoteEntry.COLUMN_NAME_ID + "=?" , new String[] {id});
+        db.delete(NoteContract.NoteEntry.TABLE_NAME, NoteContract.NoteEntry.COLUMN_NAME_ID + "=?", new String[]{id});
         db.close();
 
         getAll();
@@ -94,7 +93,6 @@ public class NoteDbHelper extends SQLiteOpenHelper {
         c.moveToFirst();
 
         while (!c.isAfterLast()) {
-            System.out.println(c.toString());
             notes.add(new Note(
                     c.getString(c.getColumnIndexOrThrow(NoteContract.NoteEntry.COLUMN_NAME_ID)),
                     c.getString(c.getColumnIndexOrThrow(NoteContract.NoteEntry.NOTE_TITLE)),
@@ -109,6 +107,25 @@ public class NoteDbHelper extends SQLiteOpenHelper {
         c.close();
         db.close();
         return notes;
+    }
+
+
+    public void updateNote(Note note) {
+
+        db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+
+        values.put(NoteContract.NoteEntry.NOTE_TITLE, note.getTitle());
+        values.put(NoteContract.NoteEntry.NOTE_DATE, note.getDate());
+        values.put(NoteContract.NoteEntry.NOTE_BODY, note.getBody());
+        values.put(NoteContract.NoteEntry.IMAGE_NAME, note.getImageName());
+
+        db.update(NoteContract.NoteEntry.TABLE_NAME, values
+                , NoteContract.NoteEntry.COLUMN_NAME_ID + "=" + note.getId()
+                , null);
+
+        db.close();
     }
 
     public void addNote(Note note) {
@@ -127,21 +144,11 @@ public class NoteDbHelper extends SQLiteOpenHelper {
                         + note.getBody() + "', '"
                         + note.getImageName() + "')"
         );
-                /*insert(
-                NoteContract.NoteEntry.TABLE_NAME,
-                null,
-                values);*/
-        System.out.println("INSERT INTO NOTES (NOTE_TITLE, NOTE_DATE, NOTE_BODY, IMAGE_NAME) VALUES ("
-                + note.getTitle() + ", "
-                + note.getDate() + ", "
-                + note.getBody() + ", "
-                + note.getImageName() + ")");
 
         db.close();
     }
 
-    public ArrayList<Note> searchTitle(String param){
-        System.out.println("Searching for: " + param);
+    public ArrayList<Note> searchTitle(String param) {
         ArrayList<Note> notes = new ArrayList<>();
         db = this.getReadableDatabase();
 
@@ -167,7 +174,6 @@ public class NoteDbHelper extends SQLiteOpenHelper {
         c.moveToFirst();
 
         while (!c.isAfterLast()) {
-            System.out.println(c.toString());
             notes.add(new Note(
                     c.getString(c.getColumnIndexOrThrow(NoteContract.NoteEntry.COLUMN_NAME_ID)),
                     c.getString(c.getColumnIndexOrThrow(NoteContract.NoteEntry.NOTE_TITLE)),
@@ -184,7 +190,7 @@ public class NoteDbHelper extends SQLiteOpenHelper {
         return notes;
     }
 
-    public ArrayList<Note>  searchDate(String param){
+    public ArrayList<Note> searchDate(String param) {
         System.out.println("Searching for: " + param);
         ArrayList<Note> notes = new ArrayList<>();
         db = this.getReadableDatabase();
@@ -211,7 +217,6 @@ public class NoteDbHelper extends SQLiteOpenHelper {
         c.moveToFirst();
 
         while (!c.isAfterLast()) {
-            System.out.println(c.toString());
             notes.add(new Note(
                     c.getString(c.getColumnIndexOrThrow(NoteContract.NoteEntry.COLUMN_NAME_ID)),
                     c.getString(c.getColumnIndexOrThrow(NoteContract.NoteEntry.NOTE_TITLE)),
@@ -229,7 +234,8 @@ public class NoteDbHelper extends SQLiteOpenHelper {
         return notes;
     }
 
-    public ArrayList<Note>  searchBody(String param){
+
+    public ArrayList<Note> searchBody(String param) {
         System.out.println("Searching for: " + param);
         ArrayList<Note> notes = new ArrayList<>();
         db = this.getReadableDatabase();
@@ -256,7 +262,6 @@ public class NoteDbHelper extends SQLiteOpenHelper {
         c.moveToFirst();
 
         while (!c.isAfterLast()) {
-            System.out.println(c.toString());
             notes.add(new Note(
                     c.getString(c.getColumnIndexOrThrow(NoteContract.NoteEntry.COLUMN_NAME_ID)),
                     c.getString(c.getColumnIndexOrThrow(NoteContract.NoteEntry.NOTE_TITLE)),

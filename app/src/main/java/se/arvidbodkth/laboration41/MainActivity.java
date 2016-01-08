@@ -20,6 +20,9 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioButton;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 import se.arvidbodkth.laboration41.NotePackage.Note;
 import se.arvidbodkth.laboration41.NotePackage.NoteModel;
 
@@ -73,6 +76,36 @@ public class MainActivity extends AppCompatActivity {
         setHandlers();
 
         model.updateNoteList();
+
+        try{
+            NoteState state;
+
+            state = (NoteState) new SaveNoteState().readFile(this.getApplicationContext());
+
+            if (state.getState().equals("create")){
+                Intent intent = new Intent(MainActivity.this, CreateNoteActivity.class);
+                intent.putExtra("TITLE", state.getTitle());
+                intent.putExtra("DATE", state.getDate());
+                intent.putExtra("BODY", state.getBody());
+                intent.putExtra("IMAGE", state.getImageName());
+                startActivityForResult(intent, CREATE_NOTE_REQUEST);
+            }
+
+            if (state.getState().equals("edit")){
+                Intent intent = new Intent(MainActivity.this, EditNoteActivity.class);
+                intent.putExtra("ID", state.getId());
+                intent.putExtra("TITLE", state.getTitle());
+                intent.putExtra("DATE", state.getDate());
+                intent.putExtra("BODY", state.getBody());
+                intent.putExtra("IMAGE", state.getImageName());
+                startActivityForResult(intent, EDIT_NOTE_REQUEST);
+            }
+        }catch (IOException e){
+            e.printStackTrace();
+        }catch (ClassNotFoundException c){
+            c.printStackTrace();
+        }
+
     }
 
     @Override
@@ -112,8 +145,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+
         if (requestCode == CREATE_NOTE_REQUEST) {
             if (resultCode == Activity.RESULT_OK) {
+
                 model.addNote(new Note(
                         data.getStringExtra("TITLE"),
                         data.getStringExtra("DATE"),
@@ -126,8 +161,16 @@ public class MainActivity extends AppCompatActivity {
 
         if (requestCode == EDIT_NOTE_REQUEST) {
             if (resultCode == Activity.RESULT_OK) {
-                System.out.println(data.getStringExtra("\nID\n"));
-                model.removeNote(data.getStringExtra("ID"));
+
+                model.updateNote(new Note(
+                        data.getStringExtra("ID"),
+                        data.getStringExtra("TITLE"),
+                        data.getStringExtra("DATE"),
+                        data.getStringExtra("BODY"),
+                        data.getStringExtra("IMAGE")
+                ));
+
+                /*model.removeNote(data.getStringExtra("ID"));
 
                 model.addNote(new Note(
                         data.getStringExtra("TITLE"),
@@ -135,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
                         data.getStringExtra("BODY"),
                         data.getStringExtra("IMAGE")
                 ));
-                System.out.println("Added new note");
+                System.out.println("Added new note");*/
             }
         }
 
@@ -166,6 +209,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -188,6 +232,14 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    protected void onDestroy() {
+        System.out.println("MainActivity");
+        super.onDestroy();
+
+    }
+
 
     public void update() {
         adapter.notifyDataSetChanged();

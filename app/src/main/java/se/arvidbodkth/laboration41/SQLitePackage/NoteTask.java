@@ -65,6 +65,10 @@ public class NoteTask extends AsyncTask<Void, Integer, ArrayList<Note>> {
             case "SEARCH_BODY":
                 noteList = mDbHelper.searchBody(note.getBody());
                 break;
+
+            case "UPDATE":
+                mDbHelper.updateNote(this.note);
+                noteList = mDbHelper.getAll();
         }
         return null;
     }

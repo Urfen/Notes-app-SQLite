@@ -20,7 +20,7 @@ public class EditNoteActivity extends AppCompatActivity {
 
     private int PICK_IMAGE_REQUEST = 0;
     private String imageURI = "ingen bild";
-
+    private boolean noteIsSaved = false;
 
     private EditText titleText, dateText, bodyText;
 
@@ -44,6 +44,28 @@ public class EditNoteActivity extends AppCompatActivity {
 
     }
 
+
+    @Override
+    protected void onStop() {
+        System.out.println("stop");
+        if (!noteIsSaved) {
+            try {
+                new SaveNoteState().writeFile(this.getApplicationContext(), new NoteState(
+                        "edit"
+                        , id
+                        , titleText.getText().toString()
+                        , dateText.getText().toString()
+                        , bodyText.getText().toString()
+                        , imageURI
+                ));
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        super.onStop();
+    }
+
     public void saveButtonClicked(View view) {
         if(titleText.getText().toString().trim().length() > 0
                 || bodyText.getText().toString().trim().length() > 0){
@@ -57,6 +79,7 @@ public class EditNoteActivity extends AppCompatActivity {
             intent.putExtra("IMAGE",imageURI);
 
             setResult(Activity.RESULT_OK, intent);
+            noteIsSaved = true;
             finish();
         }
     }
