@@ -66,6 +66,13 @@ public class EditNoteActivity extends AppCompatActivity {
         super.onStop();
     }
 
+
+    @Override
+    public void onBackPressed() {
+        noteIsSaved = true;
+        finish();
+    }
+
     public void saveButtonClicked(View view) {
         if(titleText.getText().toString().trim().length() > 0
                 || bodyText.getText().toString().trim().length() > 0){

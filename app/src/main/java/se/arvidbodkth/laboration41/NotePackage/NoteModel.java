@@ -37,6 +37,10 @@ public class NoteModel{
         noteList.addAll(notes);
     }
 
+    public Note getNote(int id){
+        return noteList.get(id);
+    }
+
     public void updateNote(Note note){
         noteTask = new NoteTask(this,mainActivity.getApplicationContext(),"UPDATE",note);
         noteTask.execute();

@@ -94,6 +94,12 @@ public class CreateNoteActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        noteIsSaved = true;
+        finish();
+    }
+
     public void viewImageButtonClicked(View view) {
         if (imageURI != null) {
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(imageURI)));

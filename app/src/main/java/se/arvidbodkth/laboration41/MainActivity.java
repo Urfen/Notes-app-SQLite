@@ -2,7 +2,6 @@ package se.arvidbodkth.laboration41;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -19,10 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioButton;
-
-import java.io.FileNotFoundException;
 import java.io.IOException;
-
 import se.arvidbodkth.laboration41.NotePackage.Note;
 import se.arvidbodkth.laboration41.NotePackage.NoteModel;
 
@@ -119,7 +115,11 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        Note n = (Note) listView.getItemAtPosition(item.getOrder());
+
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+
+        Note n = model.getNote(info.position);
+
 
         switch (item.getItemId()) {
             case R.id.editNote:
@@ -169,16 +169,6 @@ public class MainActivity extends AppCompatActivity {
                         data.getStringExtra("BODY"),
                         data.getStringExtra("IMAGE")
                 ));
-
-                /*model.removeNote(data.getStringExtra("ID"));
-
-                model.addNote(new Note(
-                        data.getStringExtra("TITLE"),
-                        data.getStringExtra("DATE"),
-                        data.getStringExtra("BODY"),
-                        data.getStringExtra("IMAGE")
-                ));
-                System.out.println("Added new note");*/
             }
         }
 
