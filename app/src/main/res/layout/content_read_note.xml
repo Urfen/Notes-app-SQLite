@@ -51,8 +51,7 @@
         android:src="@drawable/ic_action_collections"
         android:background="@null"
         android:onClick="viewImageButtonClicked"
-        android:layout_alignParentBottom="true"
-        android:layout_alignEnd="@+id/dateText"
-        android:layout_marginBottom="71dp" />
+        android:layout_alignParentTop="true"
+        android:layout_alignEnd="@+id/bodyText" />
 
 </RelativeLayout>

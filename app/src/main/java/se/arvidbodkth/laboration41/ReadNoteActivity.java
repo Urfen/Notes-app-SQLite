@@ -10,7 +10,7 @@ import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 public class ReadNoteActivity extends AppCompatActivity {
@@ -46,6 +46,7 @@ public class ReadNoteActivity extends AppCompatActivity {
         imageURI = (getIntent().getStringExtra("IMAGE"));
 
 
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,7 +71,7 @@ public class ReadNoteActivity extends AppCompatActivity {
 
 
     public void viewImageButtonClicked(View view){
-        if(imageURI != null) {
+        if(imageURI != "ingen bild") {
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(imageURI)));
         }
     }

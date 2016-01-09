@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import java.io.IOException;
@@ -21,6 +22,7 @@ public class EditNoteActivity extends AppCompatActivity {
     private int PICK_IMAGE_REQUEST = 0;
     private String imageURI = "ingen bild";
     private boolean noteIsSaved = false;
+    private ImageButton imageButton;
 
     private EditText titleText, dateText, bodyText;
 
@@ -34,6 +36,7 @@ public class EditNoteActivity extends AppCompatActivity {
         titleText = (EditText) findViewById(R.id.title);
         dateText = (EditText) findViewById(R.id.dateText);
         bodyText = (EditText) findViewById(R.id.body);
+        imageButton = (ImageButton) findViewById(R.id.viewImageButton);
 
 
         id = getIntent().getStringExtra("ID");
@@ -91,6 +94,12 @@ public class EditNoteActivity extends AppCompatActivity {
         }
     }
 
+
+    public void viewImageButtonClicked(View view) {
+        if (imageURI != "ingen bild") {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(imageURI)));
+        }
+    }
 
     public void imageButtonClicked(View view){
         //http://codetheory.in/android-pick-select-image-from-gallery-with-intents/
