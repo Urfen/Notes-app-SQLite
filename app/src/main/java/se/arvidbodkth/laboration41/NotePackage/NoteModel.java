@@ -46,7 +46,7 @@ public class NoteModel{
     /**
      * Returns the a note.
      * @param id int, the note to get.
-     * @return
+     * @return Note
      */
     public Note getNote(int id){
         return noteList.get(id);

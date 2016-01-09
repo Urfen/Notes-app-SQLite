@@ -43,7 +43,7 @@ public class Note {
 
     /**
      * Get the note as a string.
-     * @return
+     * @return the content in the note.
      */
     @Override
     public String toString() {

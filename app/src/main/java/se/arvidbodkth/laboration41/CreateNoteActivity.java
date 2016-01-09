@@ -1,39 +1,27 @@
 package se.arvidbodkth.laboration41;
 
 import android.app.Activity;
-import android.content.ContentValues;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
-
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-
-import se.arvidbodkth.laboration41.NotePackage.Note;
-import se.arvidbodkth.laboration41.NotePackage.NoteModel;
-import se.arvidbodkth.laboration41.SQLitePackage.NoteContract;
-import se.arvidbodkth.laboration41.SQLitePackage.NoteDbHelper;
-import se.arvidbodkth.laboration41.SQLitePackage.NoteTask;
-
+/**
+ * Created by Arvid Bodin and Mattias Grehnik on 2016-01-03.
+ *
+ * Class for the CreateNote activity.
+ */
 public class CreateNoteActivity extends AppCompatActivity {
-
 
     private int PICK_IMAGE_REQUEST = 0;
     private String imageURI = "ingen bild";
     private boolean noteIsSaved = false;
-
     private EditText titleText, dateText, bodyText;
-
-    private static final String TITLE_FIELD = "title";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

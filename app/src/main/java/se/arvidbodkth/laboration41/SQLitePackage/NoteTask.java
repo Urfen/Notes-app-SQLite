@@ -1,6 +1,5 @@
 package se.arvidbodkth.laboration41.SQLitePackage;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 
@@ -11,15 +10,16 @@ import se.arvidbodkth.laboration41.NotePackage.NoteModel;
 
 
 /**
- * Created by Arvid on 2016-01-05.
+ * Created by Arvid Bodin and Mattias Grehnik on 2016-01-03.
  *
+ * A Class for AsyncTask that makes requests to the db.
  */
 public class NoteTask extends AsyncTask<Void, Integer, ArrayList<Note>> {
 
     private NoteDbHelper mDbHelper;
     private String query;
-
     private ArrayList<Note> noteList;
+
     private Note note;
     private NoteModel model;
 
@@ -32,6 +32,11 @@ public class NoteTask extends AsyncTask<Void, Integer, ArrayList<Note>> {
         mDbHelper = new NoteDbHelper(context);
     }
 
+    /**
+     * Makes a query to the db with the given string.
+     * @param params String that is used to select a task.
+     * @return ArrayList with the result from the db.
+     */
     @Override
     protected ArrayList<Note> doInBackground(Void... params) {
         switch (query){
@@ -73,11 +78,11 @@ public class NoteTask extends AsyncTask<Void, Integer, ArrayList<Note>> {
         return null;
     }
 
-    @Override
-    protected void onProgressUpdate(Integer... values) {
-        super.onProgressUpdate(values);
-    }
-
+    /**
+     * When the task is done this method updates the model with the
+     * new list of notes. It then tells the model to update the UI.
+     * @param notes ArrayList of notes to give the model.
+     */
     @Override
     protected void onPostExecute(ArrayList<Note> notes) {
         super.onPostExecute(notes);

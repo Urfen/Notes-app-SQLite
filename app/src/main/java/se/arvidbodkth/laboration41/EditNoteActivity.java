@@ -2,30 +2,21 @@ package se.arvidbodkth.laboration41;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
-import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class EditNoteActivity extends AppCompatActivity {
-
 
     private int PICK_IMAGE_REQUEST = 0;
     private String imageURI = "ingen bild";
     private boolean noteIsSaved = false;
     private ImageButton imageButton;
-
     private EditText titleText, dateText, bodyText;
-
     private String id;
 
 
