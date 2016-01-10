@@ -21,15 +21,20 @@ import android.widget.RadioButton;
 import java.io.IOException;
 import se.arvidbodkth.laboration41.NotePackage.Note;
 import se.arvidbodkth.laboration41.NotePackage.NoteModel;
+import se.arvidbodkth.laboration41.NotePackage.*;
 
+/**
+ * Created by Arvid Bodin and Mattias Grehnik on 2016-01-03.
+ *
+ * Class for the mainActivity that contains the main view and its
+ * components.
+ */
 public class MainActivity extends AppCompatActivity {
 
     private ListView listView;
     private RadioButton titleButton, dateButton, bodyButton;
     private EditText searchText;
-
     private NoteModel model;
-
     private ArrayAdapter<Note> adapter;
 
     private static final int CREATE_NOTE_REQUEST = 1;
@@ -38,13 +43,18 @@ public class MainActivity extends AppCompatActivity {
     private static final int RESULT_EDIT = 10;
     private static final int RESULT_REMOVE = 11;
 
+    /**
+     * When the activity starts create the model, set up the view components then
+     * if there was a note adit or creation in progress that one is loaded in its
+     * correct activity.
+     * @param savedInstanceState the saveState.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         model = new NoteModel(this);
-
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -59,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         listView = (ListView) findViewById(R.id.listView);
-        adapter = new ArrayAdapter<Note>(this, android.R.layout.simple_list_item_1
+        adapter = new ArrayAdapter<Note>(this, android.R.layout.simple_expandable_list_item_1
                 , model.getNoteList());
         titleButton = (RadioButton) findViewById(R.id.titleButton);
         dateButton = (RadioButton) findViewById(R.id.dateButton);
@@ -96,14 +106,18 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("IMAGE", state.getImageName());
                 startActivityForResult(intent, EDIT_NOTE_REQUEST);
             }
-        }catch (IOException e){
+        }catch (IOException | ClassNotFoundException e){
             e.printStackTrace();
-        }catch (ClassNotFoundException c){
-            c.printStackTrace();
         }
 
     }
 
+    /**
+     * Create the context menu for when an item in the listView is held in.
+     * @param menu the menu.
+     * @param v the view.
+     * @param menuInfo info.
+     */
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         //AdapterView.AdapterContextMenuInfo item = (AdapterView.AdapterContextMenuInfo) menuInfo;
@@ -113,13 +127,16 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * When an item in the context menu is selected.
+     * @param item the item.
+     * @return true.
+     */
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
 
         Note n = model.getNote(info.position);
-
 
         switch (item.getItemId()) {
             case R.id.editNote:
@@ -141,6 +158,12 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * When an activity is done make the appropriate request to the db.
+     * @param requestCode the request.
+     * @param resultCode the result.
+     * @param data the data in the intent.
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -199,7 +222,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
+    /**
+     * Creates the optionsMenu.
+     * @param menu the menu.
+     * @return true.
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -207,6 +234,11 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * When an item in the options menu is selected.
+     * @param item the item.
+     * @return true.
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -223,18 +255,16 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void onDestroy() {
-        System.out.println("MainActivity");
-        super.onDestroy();
-
-    }
-
-
+    /**
+     * Update the listView with the current data.
+     */
     public void update() {
         adapter.notifyDataSetChanged();
     }
 
+    /**
+     * Sets up the handlers for the view componets.
+     */
     private void setHandlers() {
 
         searchText.addTextChangedListener(new TextWatcher() {

@@ -1,7 +1,6 @@
-package se.arvidbodkth.laboration41;
+package se.arvidbodkth.laboration41.NotePackage;
 
 import android.content.Context;
-import android.os.Environment;
 
 
 import java.io.FileInputStream;
@@ -11,8 +10,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 /**
- * Created by Arvid on 2016-01-08.
+ * Created by Arvid Bodin and Mattias Grehnik on 2016-01-03.
  *
+ * Class for the CreateNote activity.
  */
 public class SaveNoteState {
 

@@ -10,20 +10,26 @@ import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
+/**
+ * Created by Arvid Bodin and Mattias Grehnik on 2016-01-03.
+ *
+ * Class for reading a note.
+ */
 public class ReadNoteActivity extends AppCompatActivity {
 
     private String imageURI = "ingen bild";
-
     private TextView titleText, dateText, bodyText;
-
     private String id;
-
     private static final int RESULT_EDIT = 10;
     private static final int RESULT_REMOVE = 11;
 
+    /**
+     * When the activity starts the view and ints components are instantiated.
+     * Then an intent it uses that info to fill in the fields.
+     * @param savedInstanceState the save state.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,8 +50,6 @@ public class ReadNoteActivity extends AppCompatActivity {
         bodyText.setText(getIntent().getStringExtra("BODY"));
         bodyText.setMovementMethod(new ScrollingMovementMethod());
         imageURI = (getIntent().getStringExtra("IMAGE"));
-
-
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -69,13 +73,22 @@ public class ReadNoteActivity extends AppCompatActivity {
         });
     }
 
-
+    /**
+     * When the showImage button is pressed the uri is checked so that it contains
+     * an image.
+     * @param view the view.
+     */
     public void viewImageButtonClicked(View view){
-        if(imageURI != "ingen bild") {
+        if(imageURI.toLowerCase().contains("content")) {
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(imageURI)));
         }
     }
 
+    /**
+     * Creates the optionsMenu.
+     * @param menu the menu to create.
+     * @return true.
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -83,6 +96,11 @@ public class ReadNoteActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * When an item in the options menu is selected.
+     * @param item the item.
+     * @return true.
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -97,12 +115,8 @@ public class ReadNoteActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_remove) {
-
             Intent intent = new Intent();
-
             intent.putExtra("ID",this.id);
-
-
             setResult(RESULT_REMOVE, intent);
             finish();
             return true;
